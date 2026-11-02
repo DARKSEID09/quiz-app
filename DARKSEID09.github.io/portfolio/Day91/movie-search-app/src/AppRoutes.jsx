@@ -1,36 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useFavourites } from "./context/FavouritesContext";
 import Layout from "./layouts/Layout";
-import App from "./App";
+import Home from "./pages/Home";
 import Favourites from "./components/Favourites";
 import MovieDetail from "./pages/MovieDetail";
 import NotFound from "./pages/NotFound";
 
-function Home() {
-  return <App />;
-}
-
 function FavouritesPage() {
-  const [favourites, setFavourites] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem("favourites")) || [];
-    } catch {
-      return [];
-    }
-  });
-
-  function removeFavourite(imdbID) {
-    const updatedFavourites = favourites.filter(
-      (movie) => movie.imdbID !== imdbID
-    );
-
-    setFavourites(updatedFavourites);
-
-    localStorage.setItem(
-      "favourites",
-      JSON.stringify(updatedFavourites)
-    );
-  }
+  const { favourites, removeFavourite } = useFavourites();
 
   return (
     <Favourites
